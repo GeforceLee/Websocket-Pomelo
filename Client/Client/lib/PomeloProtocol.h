@@ -2,6 +2,8 @@
 //  PomeloProtocol.h
 //  Client
 //
+//  相关文档  https://github.com/NetEase/pomelo/wiki/Pomelo-通讯协议
+//
 //  Created by xiaochuan on 13-9-23.
 //  Copyright (c) 2013年 xiaochuan. All rights reserved.
 //
@@ -45,6 +47,9 @@ typedef enum{
 
 typedef NSMutableDictionary PomeloMessage;
 typedef NSMutableDictionary PomeloPackage;
+
+
+
 @interface PomeloProtocol : NSObject
 
 
@@ -105,11 +110,42 @@ typedef NSMutableDictionary PomeloPackage;
  */
 + (PomeloPackage *)packageDecode:(NSData *)buffer;
 
+/**
+ *  Message protocol encode
+ *
+ *  @param msgId         Message id
+ *  @param type          Message type
+ *  @param compressRoute whether compress route
+ *  @param route         route code or route string
+ *  @param body          message body bytes
+ *
+ *  @return encode result
+ */
++ (NSData *)messageEncodeWithId:(NSInteger)msgId
+                            andType:(MessageType)type
+                   andCompressRoute:(BOOL)compressRoute
+                       andRoute:(id)route
+                        andBody:(NSData *)body;
+
+/**
+ *  Message protocol decode.
+ *
+ *  @param buffer buffer message bytes
+ *
+ *  @return PomeloMessage
+ */
++ (PomeloMessage *)messageDecode:(NSData *)buffer;
 @end
+NS_INLINE
+PomeloMessage * MakePomeloMessage(NSUInteger msgId,MessageType type, BOOL compressRoute,id route,NSData *body){
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInteger:msgId],@"id",
+            [NSNumber numberWithInt:type],@"type",
+            [NSNumber numberWithBool:compressRoute],@"compressRoute",
+            route,@"route",
+            body,@"body", nil];
+}
 
-//PomeloMessage * MakePomeloMessage(NSUndoManager msgId,MessageType type, BOOL compressRoute)
-
-
+NS_INLINE
 PomeloPackage * MakePomeloPackage(PackageType type,NSData *body){
     return [NSMutableDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithInt:type],@"type",

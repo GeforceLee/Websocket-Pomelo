@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-
+#import "PomeloProtocol.h"
+#import "PomeloClient.h"
 @interface ViewController ()
 
 @end
@@ -36,6 +37,10 @@
 {
     NSLog(@"Websocket Connected");
     self.title = @"Connected!";
+    NSDictionary *dic =  [[NSDictionary alloc] initWithObjectsAndKeys:
+     @"aaaa", @"aaaaaaa", nil];
+      NSData *handshakeObj = [PomeloProtocol packageEncodeWithType:PackageTypeHandshake andBody:[PomeloProtocol strEncode:[PomeloClient encodeJSON:dic error:nil]]];
+    [_webSocket send:handshakeObj];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
