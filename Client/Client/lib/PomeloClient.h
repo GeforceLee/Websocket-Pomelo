@@ -13,8 +13,26 @@
 typedef void(^PomeloCallback)(id arg);
 
 
+typedef enum{
+    ResCodeOk = 200,
+    ResCodeFail =500,
+    ResCodeOldClient = 501
+}ResCode;
+
 @interface PomeloClient : NSObject<SRWebSocketDelegate>{
     SRWebSocket *_webSocket;
+    
+    /**
+     *  所有的回调函数都在这个字典里存着
+     */
+    NSMutableDictionary *_callBacks;
+    
+    
+    /**
+     *  连接时客户端发给服务器的参数
+     */
+    NSDictionary *_connectionParam;
+
 }
 @property (nonatomic,assign) id delegate;
 
@@ -35,7 +53,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param host 地址
  *  @param port 端口
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port;
 
 /**
  *  连接
@@ -44,7 +62,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param port     端口
  *  @param callback 完成后的回调
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port withCallback:(PomeloCallback)callback;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port withCallback:(PomeloCallback)callback;
 
 /**
  *  连接
@@ -53,7 +71,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param port   端口
  *  @param params 发出去的参数
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port withParams:(NSDictionary *)params;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port withParams:(NSDictionary *)params;
 
 /**
  *  连接
@@ -63,7 +81,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param params   发出去的参数
  *  @param callback 完成后的回调
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port params:(NSDictionary *)params withCallback:(PomeloCallback)callback;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port params:(NSDictionary *)params withCallback:(PomeloCallback)callback;
 
 #pragma mark -- 断开
 
@@ -119,6 +137,8 @@ typedef void(^PomeloCallback)(id arg);
  *  注销所有通知
  */
 - (void)offAllRoute;
+
+
 
 
 
