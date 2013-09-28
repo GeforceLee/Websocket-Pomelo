@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SRWebSocket.h"
+#import "PomeloClient.h"
 @interface ViewController : UIViewController<SRWebSocketDelegate>{
-    SRWebSocket *_webSocket;
+    PomeloClient *client;
 }
 
 @end

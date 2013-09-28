@@ -15,7 +15,7 @@ typedef void(^PomeloCallback)(id arg);
 
 typedef enum{
     ResCodeOk = 200,
-    ResCodeFail =500,
+    ResCodeFail = 500,
     ResCodeOldClient = 501
 }ResCode;
 
@@ -32,7 +32,37 @@ typedef enum{
      *  连接时客户端发给服务器的参数
      */
     NSDictionary *_connectionParam;
+    
+    /**
+     *  心跳时间间隔
+     */
+    NSTimeInterval _heartbeatInterval;
+    /**
+     *  心跳超时时间间隔
+     */
+    NSTimeInterval _heartbeatTimeout;
 
+    /**
+     *  心跳超时标识
+     */
+    BOOL _heartbeatTimeoutId;
+    
+    /**
+     *  心跳标识
+     */
+    BOOL _heartbeatId;
+    
+    
+    /**
+     *  下一个心跳超时的时间
+     */
+    NSTimeInterval _nextHeartbeatTimeout;
+    
+    
+    /**
+     *  heartbeat gap threashold
+     */
+    NSTimeInterval _gapThreshold;
 }
 @property (nonatomic,assign) id delegate;
 
