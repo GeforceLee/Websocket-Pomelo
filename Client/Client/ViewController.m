@@ -21,13 +21,22 @@
 	// Do any additional setup after loading the view, typically from a nib.
    
     client = [[PomeloClient alloc] initWithDelegate:self];
-    [client connectToHost:@"127.0.0.1" onPort:@"3010" params:@{@"11111": @"22222"} withCallback:^(id arg) {
+    [client connectToHost:@"10.0.1.8" onPort:@"3010" params:@{@"11111": @"22222"} withCallback:^(id arg) {
         NSLog(@"adfasdfasdf:%@",arg);
     }];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, 40, 100, 100)];
+    btn.backgroundColor = [UIColor redColor];
+    [btn addTarget:self action:@selector(diss) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.view addSubview:btn];
 
 }
 
+- (void)diss{
+    [client disconnectWithCallback:^(id arg) {
+        NSLog(@"%@",arg);
+    }];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
