@@ -24,6 +24,10 @@
     [client connectToHost:@"10.0.1.8" onPort:@"3010" params:@{@"11111": @"22222"} withCallback:^(id arg) {
         NSLog(@"adfasdfasdf:%@",arg);
     }];
+    
+    client1 = [[PomeloWS alloc] initWithDelegate:self];
+    [client1 connectToHost:@"10.0.1.8" onPort:3010];
+    
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, 40, 100, 100)];
     btn.backgroundColor = [UIColor redColor];
     [btn addTarget:self action:@selector(diss) forControlEvents:UIControlEventTouchUpInside];
@@ -33,7 +37,14 @@
 }
 
 - (void)diss{
-    [client disconnectWithCallback:^(id arg) {
+//    [client disconnectWithCallback:^(id arg) {
+//        NSLog(@"%@",arg);
+//    }];
+    
+    [client requestWithRoute:@"connector.entryHandler.entry" andParams:@{@"adfasdf": @"adfasdfasf"} andCallback:^(id arg) {
+        NSLog(@"%@",arg);
+    }];
+    [client1 requestWithRoute:@"connector.entryHandler.entry" andParams:@{@"adfasdf": @"adfasdfasf"} andCallback:^(id arg) {
         NSLog(@"%@",arg);
     }];
 }

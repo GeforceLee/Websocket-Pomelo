@@ -243,6 +243,7 @@
         [_callBacks setObject:callback forKey:MESSAGE_CALLBACK_KEY(_reqId)];
     }
     
+    [_routeMap setObject:route forKey:ROUTE_MAP_KEY(_reqId)];
     [self sendMessageWithRequestId:_reqId andRoute:route andMsg:sendParams];
 }
 
@@ -459,7 +460,9 @@
     if (_clientProtos && [_clientProtos objectForKey:route]) {
         //TODO
     }else{
-        data = [PomeloProtocol strEncode:[PomeloClient encodeJSON:msg error:nil]];
+        NSString *str =[PomeloClient encodeJSON:msg error:nil];
+        DEBUGLOG(@"%@",str);
+        data = [PomeloProtocol strEncode:str];
     }
     
     BOOL compressRoute = NO;
@@ -467,7 +470,7 @@
         route = [_dict objectForKey:route];
         compressRoute = YES;
     }
-    return [PomeloProtocol messageEncodeWithId:reqId andType:type andCompressRoute:1 andRoute:route andBody:data];
+    return [PomeloProtocol messageEncodeWithId:reqId andType:type andCompressRoute:compressRoute andRoute:route andBody:data];
 }
 
 - (NSDictionary *)deCompose:(NSMutableDictionary *)msg{
@@ -499,8 +502,11 @@
 
     //TODO 加密 protobuf
     
+    NSData *data = [self encodeWithReqId:reqId andRoute:route andMsg:msg];
     
-    NSData *packet = [PomeloProtocol packageEncodeWithType:PackageTypeData andBody:msg];
+    NSData *packet = [PomeloProtocol packageEncodeWithType:PackageTypeData andBody:data];
+    
+    [self send:packet];
 }
 
 - (void)clearTimeout:(BOOL *)timeout
