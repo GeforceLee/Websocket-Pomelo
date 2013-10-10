@@ -249,20 +249,30 @@
 
 
 -(void)notifyWithRoute:(NSString *)route andParams:(NSDictionary *)params{
+    NSDictionary *sendParams = params;
+    if (!params) {
+        sendParams = [NSDictionary dictionary];
+    }
     
+    [self sendMessageWithRequestId:0 andRoute:route andMsg:sendParams];
 }
 
 
 - (void)onRoute:(NSString *)route withCallback:(PomeloCallback)callback{
-    
+    if (callback) {
+        [_callBacks setObject:callback forKey:route];
+    }
+
 }
 
 - (void)offRoute:(NSString *)route{
-    
+    if (route) {
+        [_callBacks removeObjectForKey:route];
+    }
 }
 
 - (void)offAllRoute{
-    
+    [_callBacks removeAllObjects];
 }
 #pragma mark - JSON helper
 + (id)decodeJSON:(NSData *)data error:(NSError **)error {
@@ -289,7 +299,7 @@
 }
 
 - (void)processPackage:(PomeloPackage *)package{
-    
+    DEBUGLOG(@"processPackage");
     PackageType type = [[package objectForKey:@"type"] intValue];
     id body = [package objectForKey:@"body"];
     switch (type) {
@@ -300,7 +310,6 @@
             break;
         case PackageTypeHeartBeat:
             
-            DEBUGLOG(@"心跳");
             [self heartbeat:body];
             
             break;
@@ -419,7 +428,25 @@
 
 
 - (void)processMessage:(NSDictionary *)data{
-    //TODO
+    NSInteger msgId = [[data objectForKey:@"id"] integerValue];
+    
+    if (!msgId) {
+        // server push message
+        NSString *msgRoute = [data objectForKey:@"route"];
+        if (msgRoute) {
+            PomeloCallback pushCb = [_callBacks objectForKey:msgRoute];
+            if (pushCb) {
+                pushCb([data objectForKey:@"body"]);
+            }
+        }
+
+        return;
+    }
+    
+    PomeloCallback cb = [_callBacks objectForKey:MESSAGE_CALLBACK_KEY(msgId)];
+    if (cb) {
+        cb([data objectForKey:@"body"]);
+    }
 }
 
 
@@ -439,11 +466,12 @@
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:msg];
     NSInteger msgid = [[msg objectForKey:@"id"] intValue];
     if (msgid > 0) {
-        NSString *route = [_routeMap objectForKey:MESSAGE_CALLBACK_KEY(msgid)];
+        NSString *route = [_routeMap objectForKey:ROUTE_MAP_KEY(msgid)];
         if (!route) {
             return nil;
         }
         [result setValue:route forKey:@"route"];
+        [_routeMap removeObjectForKey:ROUTE_MAP_KEY(msgid)];
     }
     [result setValue:[self deCompose:result] forKey:@"body"];
     return result;
@@ -522,6 +550,7 @@
 #pragma mark SRWebSocketDelegate
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message{
+    DEBUGLOG(@"webSocket receive data");
     PomeloPackage *package = [PomeloProtocol packageDecode:message];
     [self processPackage:package];
 }

@@ -243,7 +243,7 @@
     
     // parse route
     NSNumber *routeNum = nil;
-    NSString *routeStr = nil;
+    NSString *routeStr = @"";
     if ([PomeloProtocol msgHasRoute:type]) {
         if (compressRoute) {
             unsigned long temp =(bytes[offset++]) << 8;
@@ -254,8 +254,6 @@
                 NSMutableData *route = [[NSMutableData alloc] initWithLength:routeLen];
                 [PomeloProtocol copyData:route destOffset:0 src:buffer srcOffset:offset len:routeLen];
                 routeStr = [PomeloProtocol strDecode:route];
-            }else{
-                routeStr = @"";
             }
             offset += routeLen;
         }
