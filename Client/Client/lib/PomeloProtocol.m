@@ -169,7 +169,7 @@
             NSAssert([route isKindOfClass:[NSNumber class]], @"error flag for number route!");
             msgLen += MSG_ROUTE_CODE_BYTES;
         }else{
-            msgLen += MSG_ROUTE_CODE_BYTES;
+            msgLen += MSG_ROUTE_LEN_BYTES;
             if (route) {
                 NSData *routeData = [PomeloProtocol strEncode:route];
                 NSAssert(routeData.length<=255, @"route maxlength is overflow");
@@ -243,7 +243,7 @@
     
     // parse route
     NSNumber *routeNum = nil;
-    NSString *routeStr = nil;
+    NSString *routeStr = @"";
     if ([PomeloProtocol msgHasRoute:type]) {
         if (compressRoute) {
             unsigned long temp =(bytes[offset++]) << 8;
@@ -254,8 +254,6 @@
                 NSMutableData *route = [[NSMutableData alloc] initWithLength:routeLen];
                 [PomeloProtocol copyData:route destOffset:0 src:buffer srcOffset:offset len:routeLen];
                 routeStr = [PomeloProtocol strDecode:route];
-            }else{
-                routeStr = @"";
             }
             offset += routeLen;
         }
@@ -303,7 +301,7 @@
 
 
 + (BOOL)msgHasRoute:(MessageType)type{
-    return type == MessageTypeResponse || type == MessageTypeNotify || type == MessageTypePush;
+    return type == MessageTypeRequest || type == MessageTypeNotify || type == MessageTypePush;
 }
 
 + (NSUInteger)encodeMsgFlagWithType:(MessageType)type
@@ -355,6 +353,9 @@
             [buffer replaceBytesInRange:NSMakeRange(offset++, 1) withBytes:&temp length:1];
             
             [PomeloProtocol copyData:buffer destOffset:offset src:routeData srcOffset:0 len:routeData.length];
+            
+            offset += routeData.length;
+            
         }else{
             char temp = 0;
             [buffer replaceBytesInRange:NSMakeRange(offset++, 1) withBytes:&temp   length:1];

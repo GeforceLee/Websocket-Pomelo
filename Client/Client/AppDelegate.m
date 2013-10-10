@@ -26,6 +26,19 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    UIApplication*    app = [UIApplication sharedApplication];
+    
+    dispatch_block_t expirationHandler;
+    expirationHandler = ^{
+        
+        [app endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+        
+        
+        bgTask = [app beginBackgroundTaskWithExpirationHandler:expirationHandler];
+    };
+    
+    bgTask = [app beginBackgroundTaskWithExpirationHandler:expirationHandler];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

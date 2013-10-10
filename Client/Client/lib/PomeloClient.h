@@ -13,13 +13,113 @@
 typedef void(^PomeloCallback)(id arg);
 
 
+
+typedef enum{
+    ResCodeOk = 200,
+    ResCodeFail = 500,
+    ResCodeOldClient = 501
+}ResCode;
+
+@protocol PomeloClientDelegate <NSObject>
+
+/**
+ *  用户自定义的加密
+ *
+ *  @param reqId requestid
+ *  @param route 路由
+ *  @param msg   消息
+ *
+ *  @return 加密后的Data
+ */
+- (NSData *)pomeloClientEncodeWithReqId:(NSInteger)reqId andRoute:(NSString *)route andMsg:(NSDictionary *)msg;
+/**
+ *  用户自定义解密
+ *
+ *  @param data 原始数据
+ *
+ *  @return 解密后的数据
+ */
+- (NSDictionary *)pomeloClientDecodeWithData:(NSData *)data;
+
+@end
+
+
 @interface PomeloClient : NSObject<SRWebSocketDelegate>{
     SRWebSocket *_webSocket;
+    
+    /**
+     *  所有的回调函数都在这个字典里存着
+     */
+    NSMutableDictionary *_callBacks;
+    
+    
+    /**
+     *  连接时客户端发给服务器的参数
+     */
+    NSDictionary *_connectionParam;
+    
+    /**
+     *  心跳时间间隔
+     */
+    NSTimeInterval _heartbeatInterval;
+    /**
+     *  心跳超时时间间隔
+     */
+    NSTimeInterval _heartbeatTimeout;
+
+    /**
+     *  心跳超时标识
+     */
+    BOOL _heartbeatTimeoutId;
+    
+    /**
+     *  心跳标识
+     */
+    BOOL _heartbeatId;
+    
+    
+    /**
+     *  下一个心跳超时的时间
+     */
+    NSTimeInterval _nextHeartbeatTimeout;
+    
+    
+    /**
+     *  heartbeat gap threashold
+     */
+    NSTimeInterval _gapThreshold;
+    
+    
+    /**
+     *  发送的id
+     */
+    NSInteger _reqId;
+    
+    
+    /**
+     *  路由表
+     */
+    NSMutableDictionary *_routeMap;
+    
+    /**
+     *  客户端Protobuf
+     */
+    NSDictionary *_clientProtos;
+    /**
+     *  服务端的Protobuf
+     */
+    NSDictionary *_serverProtos;
+    
+    NSDictionary *_dict;    // route string to code
+    NSDictionary *_abbrs;   // code to route string
+    
 }
 @property (nonatomic,assign) id delegate;
 
 
+
 #pragma mark --  连接
+
 /**
  *  初始化方法
  *
@@ -35,7 +135,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param host 地址
  *  @param port 端口
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port;
 
 /**
  *  连接
@@ -44,7 +144,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param port     端口
  *  @param callback 完成后的回调
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port withCallback:(PomeloCallback)callback;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port withCallback:(PomeloCallback)callback;
 
 /**
  *  连接
@@ -53,7 +153,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param port   端口
  *  @param params 发出去的参数
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port withParams:(NSDictionary *)params;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port withParams:(NSDictionary *)params;
 
 /**
  *  连接
@@ -63,7 +163,7 @@ typedef void(^PomeloCallback)(id arg);
  *  @param params   发出去的参数
  *  @param callback 完成后的回调
  */
-- (void)connectToHost:(NSString *)host onPort:(NSInteger)port params:(NSDictionary *)params withCallback:(PomeloCallback)callback;
+- (void)connectToHost:(NSString *)host onPort:(NSString *)port params:(NSDictionary *)params withCallback:(PomeloCallback)callback;
 
 #pragma mark -- 断开
 
@@ -122,6 +222,10 @@ typedef void(^PomeloCallback)(id arg);
 
 
 
+
+
 + (id)decodeJSON:(NSData *)data error:(NSError **)error;
 + (NSString *)encodeJSON:(id)object error:(NSError **)error;
 @end
+
+

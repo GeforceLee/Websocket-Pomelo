@@ -7,8 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "PomeloProtocol.h"
-#import "PomeloClient.h"
+
+
 @interface ViewController ()
 
 @end
@@ -19,49 +19,54 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-   _webSocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:@"ws://localhost:3010"]];
-    _webSocket.delegate = self;
-    [_webSocket open];
+   
+    client = [[PomeloClient alloc] initWithDelegate:self];
+    [client connectToHost:@"10.0.1.8" onPort:@"3010" params:@{@"11111": @"22222"} withCallback:^(id arg) {
+        NSLog(@"adfasdfasdf:%@",arg);
+    }];
     
+//    client1 = [[PomeloWS alloc] initWithDelegate:self];
+//    [client1 connectToHost:@"10.0.1.8" onPort:3010];
+    
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, 40, 100, 100)];
+    btn.backgroundColor = [UIColor redColor];
+    [btn addTarget:self action:@selector(diss) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:btn];
+
+    [client onRoute:@"onRoomStand" withCallback:^(id arg) {
+        NSLog(@"%@",arg);
+    }];
+    
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(60, 140, 100, 100)];
+    btn1.backgroundColor = [UIColor redColor];
+    [btn1 addTarget:self action:@selector(pysh) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:btn1];
 
 }
 
+- (void)diss{
+//    [client disconnectWithCallback:^(id arg) {
+//        NSLog(@"%@",arg);
+//    }];
+    
+    [client requestWithRoute:@"connector.entryHandler.entry" andParams:@{@"adfasdf": @"adfasdfasf"} andCallback:^(id arg) {
+        NSLog(@"%@",arg);
+    }];
+}
+
+
+- (void)pysh{
+//    [client requestWithRoute:@"connector.entryHandler.push" andParams:@{@"adfasdf": @"adfasdfasf"} andCallback:^(id arg) {
+//        NSLog(@"%@",arg);
+//    }];
+    
+    [client notifyWithRoute:@"connector.entryHandler.push" andParams:nil];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - SRWebSocketDelegate
-
-- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
-{
-    NSLog(@"Websocket Connected");
-    self.title = @"Connected!";
-    NSDictionary *dic =  [[NSDictionary alloc] initWithObjectsAndKeys:
-     @"aaaa", @"aaaaaaa", nil];
-      NSData *handshakeObj = [PomeloProtocol packageEncodeWithType:PackageTypeHandshake andBody:[PomeloProtocol strEncode:[PomeloClient encodeJSON:dic error:nil]]];
-    [_webSocket send:handshakeObj];
-}
-
-- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
-{
-    NSLog(@":( Websocket Failed With Error %@", error);
-    
-    self.title = @"Connection Failed! (see logs)";
-    _webSocket = nil;
-}
-
-- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
-{
-    NSLog(@"Received \"%@\"", message);
-   
-}
-
-- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
-{
-    NSLog(@"WebSocket closed");
-    self.title = @"Connection Closed! (see logs)";
-    _webSocket = nil;
-}
-
 @end

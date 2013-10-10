@@ -11,12 +11,16 @@ app.configure('production|development', 'connector', function(){
 	app.set('connectorConfig',
 		{
 			connector : pomelo.connectors.hybridconnector,
-			heartbeat : 3,
-			useDict : true,
-			useProtobuf : true,
+			heartbeat : 15,
+			// disconnectOnTimeout: true,
+
 			handshake: function(msg, cb){
 				console.log('握手');
 				console.log(msg);
+				cb(null,{
+					code:200,
+					str : 'aaaa'
+				})
 			}
 		});
 });
