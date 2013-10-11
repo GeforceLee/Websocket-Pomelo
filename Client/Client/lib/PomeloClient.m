@@ -341,7 +341,7 @@
         
         [self handshakeInit:data];
         
-        [self protobufDataInit:[data objectForKey:@"sys"]];
+        [self protobufDataInit:data];
         
         NSData *handshakeAck = [PomeloProtocol packageEncodeWithType:PackageTypeHandshakeAck andBody:nil];
         [self send:handshakeAck];
@@ -366,30 +366,7 @@
 
 
 - (void)protobufDataInit:(NSDictionary *)data{
-//        dict =         {
-//            
-//        };
-//        heartbeat = 15;
-//        protos =         {
-//            client =             {
-//            };
-//            server =             {
-//                
-//                };
-//            };
-//            version = 1381463782000;
-//        };
-    if (data) {
-        _dict = [data objectForKey:@"dict"];
-        
-        _abbrs =  [NSMutableDictionary dictionary];
-        [_dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSNumber *obj, BOOL *stop) {
-            [_abbrs setValue:key forKey:[NSString stringWithFormat:@"%@",obj]];
-        }];
-        _clientProtos = [[data objectForKey:@"protos"] objectForKey:@"client"];
-        _serverProtos = [[data objectForKey:@"protos"] objectForKey:@"server"];
-        _protoVersion = [[[data objectForKey:@"protos"] objectForKey:@"version"] integerValue];
-    }
+    
 }
 
 
