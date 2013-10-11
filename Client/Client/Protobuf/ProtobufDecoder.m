@@ -85,13 +85,19 @@
         NSString *option = proto[name][@"option"];
         
         if ([option isEqualToString:@"optional"] || [option isEqualToString:@"required"]) {
-            [msg setObject:[self decodeProp:proto[name][@"type"] andProtos:proto] forKey:name];
+            
+            id temp = [self decodeProp:proto[name][@"type"] andProtos:proto];
+            
+            [msg setObject:temp  forKey:name];
+            
         }else if ([option isEqualToString:@"repeated"]){
+            
             if (!msg[name]) {
                 
                 [msg setObject:[NSMutableArray array] forKey:name];
                 
             }
+            
             [self decodeArray:msg[name] andType:proto[name][@"type"] andProtos:proto];
             
         }

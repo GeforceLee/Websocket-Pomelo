@@ -8,6 +8,9 @@
 
 #import "PomeloClient.h"
 #import "PomeloProtocol.h"
+#import "ProtobufDecoder.h"
+
+
 #define POMELO_CLIENT_TYPE @"ios-websocket"
 #define POMELO_CLIENT_VERSION @"0.0.1"
 
@@ -389,6 +392,8 @@
         _clientProtos = [[data objectForKey:@"protos"] objectForKey:@"client"];
         _serverProtos = [[data objectForKey:@"protos"] objectForKey:@"server"];
         _protoVersion = [[[data objectForKey:@"protos"] objectForKey:@"version"] integerValue];
+        
+        _probufDecode = [ProtobufDecoder protobufDecodeWhitProtos:_serverProtos];
     }
 }
 
@@ -543,7 +548,8 @@
     }
     
     if (_serverProtos && [_serverProtos objectForKey:route]) {
-        //TODO protobuf
+        return [_probufDecode decodeWithRoute:route andData:msg[@"body"]];
+        
     }else{
         return [PomeloClient decodeJSON:[msg objectForKey:@"body"] error:nil];
     }

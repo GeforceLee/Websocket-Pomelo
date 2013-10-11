@@ -20,11 +20,11 @@
 {
     [super viewDidLoad];
     
-    NSDictionary *d1 = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"1", nil];
-    NSDictionary *d2 = [NSDictionary dictionaryWithObjectsAndKeys:@"2",@"2", nil];
+//    NSDictionary *d1 = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"1", nil];
+//    NSDictionary *d2 = [NSDictionary dictionaryWithObjectsAndKeys:@"2",@"2", nil];
     
 
-    return;
+//    return;
 	// Do any additional setup after loading the view, typically from a nib.
    
     client = [[PomeloClient alloc] initWithDelegate:self];

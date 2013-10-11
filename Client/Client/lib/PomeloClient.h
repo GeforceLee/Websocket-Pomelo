@@ -56,6 +56,8 @@ typedef enum{
 @end
 
 
+@class ProtobufDecoder;
+
 @interface PomeloClient : NSObject<SRWebSocketDelegate>{
     SRWebSocket *_webSocket;
     
@@ -127,6 +129,9 @@ typedef enum{
     NSInteger _protoVersion;
     
     NSDictionary *_abbrs;   // code to route string
+    
+    ProtobufDecoder *_probufDecode;
+    
     
 }
 @property (nonatomic,assign) id delegate;

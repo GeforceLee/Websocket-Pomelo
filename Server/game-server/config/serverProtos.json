@@ -1,5 +1,6 @@
-{"texasHall.hallHandler.roomEnter":{
+{"connector.entryHandler.entry":{
         "required uInt32 code" : 1,
+        "optional string msg" : 2,
         "message Error":{
             "required uInt32 errorcode":1,
             "optional string desc" : 2
