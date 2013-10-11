@@ -16,3 +16,9 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+Server/game-server/node_modules/*
+
+Server/web-server/node_modules/*
+
+Server/game-server/logs/*
