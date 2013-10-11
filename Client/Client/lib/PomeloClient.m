@@ -413,7 +413,7 @@
         [self performSelector:@selector(handleHeartbeatTimeout) withObject:nil afterDelay:gap];
     }else{
         DEBUGLOG(@"server heartbeat timeout");
-        [self disconnect];
+        [self handleErrorcode:ResCodeHeartBeatTimeout];
     }
 }
 
@@ -451,8 +451,13 @@
 
 
 - (void)handleErrorcode:(ResCode)code{
-    //TODO
+
+    if (self.delegate && [self respondsToSelector:@selector(pomeloDisconnect:withError:)]) {
+        [self.delegate pomeloDisconnect:self withError:[NSError errorWithDomain:@"pomeloclient" code:code userInfo:nil]];
+    }
     
+    [self disconnect];
+
 }
 
 
