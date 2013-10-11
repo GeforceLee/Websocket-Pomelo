@@ -17,8 +17,11 @@ typedef void(^PomeloCallback)(id arg);
 typedef enum{
     ResCodeOk = 200,
     ResCodeFail = 500,
-    ResCodeOldClient = 501
+    ResCodeOldClient = 501,
+    ResCodeHeartBeatTimeout = 100000
 }ResCode;
+
+@class PomeloClient;
 
 @protocol PomeloClientDelegate <NSObject>
 
@@ -41,6 +44,15 @@ typedef enum{
  */
 - (NSDictionary *)pomeloClientDecodeWithData:(NSData *)data;
 
+
+
+/**
+ *  断开连接
+ *
+ *  @param pomelo PomeloClinet
+ *  @param error  错误信息
+ */
+- (void)pomeloDisconnect:(PomeloClient *)pomelo withError:(NSError *)error;
 @end
 
 
