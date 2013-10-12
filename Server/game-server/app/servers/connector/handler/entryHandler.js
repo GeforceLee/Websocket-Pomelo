@@ -24,7 +24,11 @@ Handler.prototype.entry = function(msg, session, next) {
         	var serverid =self.app.getServerId();
             channel.add(1, serverid);
         }
-  next(null, {code: 200, msg: 'game server is ok.'});
+  next(null, {code: 200, 
+    msg: ['game server is ok.','aadfafasdf'],
+    fl:[1.2,23,12.3],
+    dou:3.4,
+    obj:[{a:'a',b:2},{a:'b',b:4}]});
 };
 Handler.prototype.push = function(msg, session, next) {
 	

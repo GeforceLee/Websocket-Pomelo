@@ -1,1 +1,16 @@
-{}
+{
+	"connector.entryHandler.entry":{
+        "required string a" : 1,
+        "optional string b" : 2,
+        "optional sInt32 c" : 3,
+        "optional uInt32 d" : 4,
+        "optional float f" : 5,
+        "optional double e" : 6,
+        "message Obj":{
+            "required uInt32 b":1,
+            "optional string a" : 2
+        },
+        "optional Obj g" : 7,
+        "repeated Obj h" : 8
+    }
+}

@@ -46,6 +46,6 @@
     if ([str isEqualToString:@"uInt64"]) {
         return ProtobufTypeUInt32;
     }
-    return -1;
+    return ProtobufTypeUnknow;
 }
 @end

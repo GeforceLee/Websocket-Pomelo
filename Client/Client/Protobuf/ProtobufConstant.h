@@ -10,6 +10,7 @@
 #define Client_ProtobufConstant_h
 
 typedef enum{
+    ProtobufTypeUnknow = -1,
     ProtobufTypeUInt32 = 0,
     ProtobufTypeSint32 = 0,
     ProtobufTypeInt32  = 0,

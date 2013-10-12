@@ -20,6 +20,8 @@
 {
     [super viewDidLoad];
     
+
+    
 //    NSDictionary *d1 = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"1", nil];
 //    NSDictionary *d2 = [NSDictionary dictionaryWithObjectsAndKeys:@"2",@"2", nil];
     
@@ -44,7 +46,9 @@
     [client onRoute:@"onRoomStand" withCallback:^(id arg) {
         NSLog(@"%@",arg);
     }];
-    
+//    [client1 onRoute:@"onRoomStand" withCallback:^(id arg) {
+//        NSLog(@"%@" ,arg);
+//    }];
     UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(60, 140, 100, 100)];
     btn1.backgroundColor = [UIColor redColor];
     [btn1 addTarget:self action:@selector(pysh) forControlEvents:UIControlEventTouchUpInside];
@@ -58,7 +62,14 @@
 //        NSLog(@"%@",arg);
 //    }];
     
-    [client requestWithRoute:@"connector.entryHandler.entry" andParams:@{@"adfasdf": @"adfasdfasf"} andCallback:^(id arg) {
+    [client requestWithRoute:@"connector.entryHandler.entry" andParams:@{@"a": @"adfasdfasf",
+                                                                         @"b":@"abbbbb",
+                                                                         @"c":@-1,
+                                                                         @"d":@2,
+                                                                         @"f":@1.2,
+                                                                         @"e":@2.333333,
+                                                                         @"g":@{@"a": @"adf",@"b":@12313},
+                                                                         @"h":@[@{@"a": @"addddf",@"b":@1212313},@{@"a": @"asdfadf",@"b":@12313}]} andCallback:^(id arg) {
         NSLog(@"%@",arg);
     }];
 }
