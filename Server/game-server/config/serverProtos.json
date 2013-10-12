@@ -1,19 +1,16 @@
-{"texasHall.hallHandler.roomEnter":{
-        "required uInt32 code" : 1,
-        "message Error":{
-            "required uInt32 errorcode":1,
-            "optional string desc" : 2
-        },
-        "optional Error error" : 2
+{
+	"message Obj":{
+            "required uInt32 b":1,
+            "optional string a" : 2
     },
-    "texasHall.hallHandler.refreshRoomList":{
+	"connector.entryHandler.entry":{
         "required uInt32 code" : 1,
-        "repeated string roomlist" : 2,
-        "optional uInt32 usercount" : 3,
-        "message Error":{
-            "required uInt32 errorcode":1,
-            "optional string desc" : 2
-        },
-        "optional Error error" : 4
+        "repeated string msg" : 2,
+        "repeated float fl" : 3,
+        "optional double dou" : 4,
+        "repeated Obj obj" : 5
+    },
+    "onRoomStand":{
+        "required int32 position" : 1  
     }
 }

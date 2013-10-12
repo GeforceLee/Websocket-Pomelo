@@ -30,6 +30,10 @@
 		3764EB6F17F028BD00093CF7 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB6E17F028BD00093CF7 /* libicucore.dylib */; };
 		3764EB7117F028CD00093CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB7017F028CD00093CF7 /* Security.framework */; };
 		3764EB7517F02E8A00093CF7 /* PomeloClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764EB7417F02E8A00093CF7 /* PomeloClient.m */; };
+		379D0F2F1807CF0A0056CAA5 /* ProtobufCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 379D0F2E1807CF0A0056CAA5 /* ProtobufCodec.m */; };
+		379D0F321807DDEC0056CAA5 /* ProtobufUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 379D0F311807DDEC0056CAA5 /* ProtobufUtil.m */; };
+		379D0F361807E3AA0056CAA5 /* ProtobufDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 379D0F351807E3AA0056CAA5 /* ProtobufDecoder.m */; };
+		379D0F391808EC4C0056CAA5 /* ProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 379D0F381808EC4C0056CAA5 /* ProtobufEncoder.m */; };
 		37CA06B017F7FED100DB39D6 /* PomeloWS.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA06A117F7FED100DB39D6 /* PomeloWS.m */; };
 		37CA06B117F7FED100DB39D6 /* PBCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA06A517F7FED100DB39D6 /* PBCodec.m */; };
 		37CA06B217F7FED100DB39D6 /* PBDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA06A717F7FED100DB39D6 /* PBDecoder.m */; };
@@ -84,6 +88,15 @@
 		3764EB7017F028CD00093CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3764EB7317F02E8A00093CF7 /* PomeloClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloClient.h; sourceTree = "<group>"; };
 		3764EB7417F02E8A00093CF7 /* PomeloClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PomeloClient.m; sourceTree = "<group>"; };
+		379D0F2D1807CF0A0056CAA5 /* ProtobufCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufCodec.h; sourceTree = "<group>"; };
+		379D0F2E1807CF0A0056CAA5 /* ProtobufCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufCodec.m; sourceTree = "<group>"; };
+		379D0F301807DDEC0056CAA5 /* ProtobufUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufUtil.h; sourceTree = "<group>"; };
+		379D0F311807DDEC0056CAA5 /* ProtobufUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufUtil.m; sourceTree = "<group>"; };
+		379D0F331807DE620056CAA5 /* ProtobufConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProtobufConstant.h; sourceTree = "<group>"; };
+		379D0F341807E3AA0056CAA5 /* ProtobufDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufDecoder.h; sourceTree = "<group>"; };
+		379D0F351807E3AA0056CAA5 /* ProtobufDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufDecoder.m; sourceTree = "<group>"; };
+		379D0F371808EC4C0056CAA5 /* ProtobufEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufEncoder.h; sourceTree = "<group>"; };
+		379D0F381808EC4C0056CAA5 /* ProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufEncoder.m; sourceTree = "<group>"; };
 		37CA06A017F7FED100DB39D6 /* PomeloWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloWS.h; sourceTree = "<group>"; };
 		37CA06A117F7FED100DB39D6 /* PomeloWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PomeloWS.m; sourceTree = "<group>"; };
 		37CA06A217F7FED100DB39D6 /* PomeloWSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PomeloWSErrors.h; sourceTree = "<group>"; };
@@ -164,6 +177,7 @@
 		3764EB2F17F0268600093CF7 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				379D0F2C1807CDA10056CAA5 /* Protobuf */,
 				3764EB7217F02E7200093CF7 /* lib */,
 				3764EB3817F0268600093CF7 /* AppDelegate.h */,
 				3764EB3917F0268600093CF7 /* AppDelegate.m */,
@@ -231,6 +245,22 @@
 				374A7E5417F0327A006B63D4 /* PomeloProtocol.m */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		379D0F2C1807CDA10056CAA5 /* Protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				379D0F2D1807CF0A0056CAA5 /* ProtobufCodec.h */,
+				379D0F2E1807CF0A0056CAA5 /* ProtobufCodec.m */,
+				379D0F301807DDEC0056CAA5 /* ProtobufUtil.h */,
+				379D0F311807DDEC0056CAA5 /* ProtobufUtil.m */,
+				379D0F331807DE620056CAA5 /* ProtobufConstant.h */,
+				379D0F341807E3AA0056CAA5 /* ProtobufDecoder.h */,
+				379D0F351807E3AA0056CAA5 /* ProtobufDecoder.m */,
+				379D0F371808EC4C0056CAA5 /* ProtobufEncoder.h */,
+				379D0F381808EC4C0056CAA5 /* ProtobufEncoder.m */,
+			);
+			path = Protobuf;
 			sourceTree = "<group>";
 		};
 		37CA069F17F7FED100DB39D6 /* PomeloClientWS */ = {
@@ -365,6 +395,10 @@
 				3764EB6B17F0279900093CF7 /* SRWebSocket.m in Sources */,
 				374A7E5517F0327A006B63D4 /* PomeloProtocol.m in Sources */,
 				3764EB6A17F0279900093CF7 /* NSData+SRB64Additions.m in Sources */,
+				379D0F2F1807CF0A0056CAA5 /* ProtobufCodec.m in Sources */,
+				379D0F391808EC4C0056CAA5 /* ProtobufEncoder.m in Sources */,
+				379D0F361807E3AA0056CAA5 /* ProtobufDecoder.m in Sources */,
+				379D0F321807DDEC0056CAA5 /* ProtobufUtil.m in Sources */,
 				3764EB7517F02E8A00093CF7 /* PomeloClient.m in Sources */,
 				3764EB4317F0268600093CF7 /* ViewController.m in Sources */,
 				3764EB3A17F0268600093CF7 /* AppDelegate.m in Sources */,

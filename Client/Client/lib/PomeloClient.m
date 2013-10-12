@@ -8,6 +8,9 @@
 
 #import "PomeloClient.h"
 #import "PomeloProtocol.h"
+#import "ProtobufDecoder.h"
+#import "ProtobufEncoder.h"
+
 #define POMELO_CLIENT_TYPE @"ios-websocket"
 #define POMELO_CLIENT_VERSION @"0.0.1"
 
@@ -26,7 +29,7 @@
 
 @interface PomeloClient (PrivateMethod)
 /**
- *  发送消息
+ *  发送消息=
  *
  *  @param data 发送的数据
  */
@@ -389,6 +392,9 @@
         _clientProtos = [[data objectForKey:@"protos"] objectForKey:@"client"];
         _serverProtos = [[data objectForKey:@"protos"] objectForKey:@"server"];
         _protoVersion = [[[data objectForKey:@"protos"] objectForKey:@"version"] integerValue];
+        
+        _probufDecode = [ProtobufDecoder protobufDecodeWhitProtos:_serverProtos];
+        _protobufEncode = [ProtobufEncoder protobufEncoderWithProtos:_clientProtos];
     }
 }
 
@@ -514,7 +520,9 @@
     
     NSData *data = nil;
     if (_clientProtos && [_clientProtos objectForKey:route]) {
-        //TODO
+
+        data = [_protobufEncode encodeWithRoute:route andMessage:msg];
+        
     }else{
         NSString *str =[PomeloClient encodeJSON:msg error:nil];
         DEBUGLOG(@"%@",str);
@@ -530,7 +538,7 @@
 }
 
 - (NSDictionary *)deCompose:(NSMutableDictionary *)msg{
-    NSString *route = [msg objectForKey:@"route"];
+    NSString *route = [NSString  stringWithFormat:@"%@",[msg objectForKey:@"route"]];
     
     BOOL compressRoute = [[msg objectForKey:@"compressRoute"] boolValue];
     if (compressRoute) {
@@ -543,7 +551,8 @@
     }
     
     if (_serverProtos && [_serverProtos objectForKey:route]) {
-        //TODO protobuf
+        return [_probufDecode decodeWithRoute:route andData:msg[@"body"]];
+        
     }else{
         return [PomeloClient decodeJSON:[msg objectForKey:@"body"] error:nil];
     }
@@ -556,7 +565,7 @@
                         andRoute:(NSString *)route
                           andMsg:(NSDictionary *)msg{
 
-    //TODO 加密 protobuf
+    //TODO 加密 
     
     NSData *data = [self encodeWithReqId:reqId andRoute:route andMsg:msg];
     
