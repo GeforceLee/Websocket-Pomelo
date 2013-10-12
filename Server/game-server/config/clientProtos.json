@@ -1,5 +1,5 @@
 {
-	"connector.entryHandler.entry":{
+	"connector.entryHandler.proto":{
         "required string a" : 1,
         "optional string b" : 2,
         "optional sInt32 c" : 3,
@@ -11,6 +11,8 @@
             "optional string a" : 2
         },
         "optional Obj g" : 7,
-        "repeated Obj h" : 8
+        "repeated Obj h" : 8,
+        "repeated sInt32 i" : 9,
+        "repeated double j" : 10
     }
 }

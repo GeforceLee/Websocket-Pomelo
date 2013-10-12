@@ -109,20 +109,20 @@
             
         }else if ([option isEqualToString:@"optional"]){
             
-            NSDictionary *message = protos[@"__messages"][proto[@"type"]];
-            if (!message) {
-
-                message = _protos[[NSString stringWithFormat:@"message %@",proto[@"type"]]];
-                
-            }
-            
-            if (message && ![self checkMsg:msg[name] andProtos:message]) {
-                NSLog(@"inner proto error! name: %@, proto: %@, msg: %@", name, proto, msg);
-                
-                result = NO;
-                *stop = YES;
-                
-            }
+//            NSDictionary *message = protos[@"__messages"][proto[@"type"]];
+//            if (!message) {
+//
+//                message = _protos[[NSString stringWithFormat:@"message %@",proto[@"type"]]];
+//                
+//            }
+//            NSLog(@"%@",name);
+//            if (message && ![self checkMsg:msg[name] andProtos:message]) {
+//                NSLog(@"inner proto error! name: %@, proto: %@, msg: %@", name, proto, msg);
+//                
+//                result = NO;
+//                *stop = YES;
+//                
+//            }
         }else if ([option isEqualToString:@"repeated"]){
             
             NSDictionary *message = protos[@"__messages"][proto[@"type"]];
