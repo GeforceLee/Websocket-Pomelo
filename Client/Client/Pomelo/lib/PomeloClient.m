@@ -392,6 +392,9 @@
         _clientProtos = [[data objectForKey:@"protos"] objectForKey:@"client"];
         _serverProtos = [[data objectForKey:@"protos"] objectForKey:@"server"];
         _protoVersion = [[[data objectForKey:@"protos"] objectForKey:@"version"] integerValue];
+        
+        _protobufEncode  = [ProtobufEncoder protobufEncoderWithProtos:_clientProtos];
+        _probufDecode = [ProtobufDecoder protobufDecodeWhitProtos:_serverProtos];
     }
 }
 
@@ -534,11 +537,11 @@
 }
 
 - (NSDictionary *)deCompose:(NSMutableDictionary *)msg{
-    NSString *route = [msg objectForKey:@"route"];
+    id route = [msg objectForKey:@"route"];
     
     BOOL compressRoute = [[msg objectForKey:@"compressRoute"] boolValue];
     if (compressRoute) {
-        id abbRoute = [_abbrs objectForKey:route];
+        id abbRoute = [_abbrs objectForKey:[NSString stringWithFormat:@"%@",route]];
         if (!abbRoute) {
             return [NSDictionary dictionary];
         }
