@@ -11,6 +11,7 @@
         "repeated Obj obj" : 5
     },
     "onRoomStand":{
-        "required int32 position" : 1  
-    }
+        "required int32 position" : 1
+    }  
+
 }

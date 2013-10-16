@@ -12,8 +12,9 @@ app.configure('production|development', 'connector', function(){
 		{
 			connector : pomelo.connectors.hybridconnector,
 			heartbeat : 15,
-			// disconnectOnTimeout: true,
-
+			disconnectOnTimeout: true,
+useDict: true,
+      useProtobuf: true,
 			handshake: function(msg, cb){
 				console.log('握手');
 				console.log(msg);
