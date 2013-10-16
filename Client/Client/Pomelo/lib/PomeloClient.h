@@ -42,7 +42,7 @@ typedef enum{
  *
  *  @return 解密后的数据
  */
-- (NSDictionary *)pomeloClientDecodeWithData:(NSData *)data;
+- (NSData *)pomeloClientDecodeWithData:(NSData *)data;
 
 
 
@@ -125,6 +125,9 @@ typedef enum{
     NSDictionary *_serverProtos;
     
     NSDictionary *_dict;    // route string to code
+    
+    NSInteger _protoVersion;
+    
     NSDictionary *_abbrs;   // code to route string
     
     ProtobufDecoder *_probufDecode;
