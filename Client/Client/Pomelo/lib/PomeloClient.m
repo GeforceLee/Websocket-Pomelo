@@ -169,6 +169,7 @@
         _gapThreshold = 0.1;
         _reqId = 0;
         _routeMap =[[NSMutableDictionary alloc] init];
+        _delegate = delegate;
         
     }
     return self;
