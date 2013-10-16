@@ -8,6 +8,8 @@
 
 #import "PomeloClient.h"
 #import "PomeloProtocol.h"
+#import "ProtobufDecoder.h"
+#import "ProtobufEncoder.h"
 #define POMELO_CLIENT_TYPE @"ios-websocket"
 #define POMELO_CLIENT_VERSION @"0.0.1"
 
@@ -464,8 +466,9 @@
 
 
 - (NSDictionary *)decodeWithData:(NSData *)data{
+    
     if ([self.delegate respondsToSelector:@selector(pomeloClientDecodeWithData:)]) {
-        return [self.delegate pomeloClientDecodeWithData:data];
+         data =  [self.delegate pomeloClientDecodeWithData:data];
     }
     
     NSDictionary *msg = [PomeloProtocol messageDecode:data];
@@ -492,7 +495,7 @@
     
     NSData *data = nil;
     if (_clientProtos && [_clientProtos objectForKey:route]) {
-        //TODO
+        data = [_protobufEncode encodeWithRoute:route andMessage:msg];
     }else{
         NSString *str =[PomeloClient encodeJSON:msg error:nil];
         DEBUGLOG(@"%@",str);
@@ -521,7 +524,7 @@
     }
     
     if (_serverProtos && [_serverProtos objectForKey:route]) {
-        //TODO protobuf
+        return [_probufDecode decodeWithRoute:route andData:[msg objectForKey:@"body"]];
     }else{
         return [PomeloClient decodeJSON:[msg objectForKey:@"body"] error:nil];
     }

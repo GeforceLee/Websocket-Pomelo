@@ -8,11 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PomeloClient.h"
-#import "PomeloWS.h"
 @interface ViewController : UIViewController{
     PomeloClient *client;
     
-    PomeloWS *client1;
+
 }
 
 @end

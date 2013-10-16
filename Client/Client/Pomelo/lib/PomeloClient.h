@@ -42,7 +42,7 @@ typedef enum{
  *
  *  @return 解密后的数据
  */
-- (NSDictionary *)pomeloClientDecodeWithData:(NSData *)data;
+- (NSData *)pomeloClientDecodeWithData:(NSData *)data;
 
 
 
