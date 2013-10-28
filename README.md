@@ -1,4 +1,12 @@
 Websocket-Pomelo
 ================
 
-Websocket-Pomelo
+源码包括服务端和客户端2部分的代码。目的是方便测试。
+
+客户端主要完成了对Pomelo协议的封装，已经Protobuf功能的优化。
+
+现在已经支持除Rsa加密外所有功能。
+
+
+
+
