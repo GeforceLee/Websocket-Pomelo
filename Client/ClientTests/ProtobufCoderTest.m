@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
+#import "ProtobufCodec.h"
 @interface ProtobufCoderTest : XCTestCase
 
 @end
@@ -26,9 +26,29 @@
     [super tearDown];
 }
 
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+- (void)testUInt32andUInt64test{
+    long long limit = 0x7fffffffffffffff;
+    int count = 10000;
+    for (int i = 0; i < count; i++) {
+        long long number = arc4random()%limit;
+        long long result = [ProtobufCodec decodeUInt32:[ProtobufCodec encodeUInt32:number]];
+        XCTAssertEqual(number, result, @"decode and encode must equal");
+    }
+    
+}
+
+
+
+- (void)testInt32andInt64test{
+    long long limit = 0x7fffffffffffffff;
+    int count = 10000;
+    for (int i = 0; i < count; i++) {
+        int flag = ((arc4random() % 10) >4 )? 1: -1;
+        long long number = (arc4random()%limit) *flag;
+        long long result = [ProtobufCodec decodeSInt32:[ProtobufCodec encodeSInt32:number]];
+        XCTAssertEqual(number, result, @"decode and encode must equal");
+    }
+    
 }
 
 @end

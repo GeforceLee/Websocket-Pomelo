@@ -1,12 +1,12 @@
 {
   "onMove" : {
-    "required uInt32 entityId" : 1,
+    "optional uInt32 entityId" : 1,
     "message Path": {
       "required double x" : 1,
       "required double y" : 2
     },
     "repeated Path path" : 2,
-    "required float speed" : 3
+    "optional float speed" : 3
   },
   "onAttack" : {
     "required uInt32 attacker" : 1,
@@ -245,11 +245,11 @@
         },
         "repeated Collison collisions" : 1
       },
-      "required string name" : 1,
-      "required uInt32 width" : 2,
-      "required uInt32 height" : 3,
-      "required uInt32 tileW" : 4,
-      "required uInt32 tileH" : 5,
+      "optional string name" : 1,
+      "optional uInt32 width" : 2,
+      "optional uInt32 height" : 3,
+      "optional uInt32 tileW" : 4,
+      "optional uInt32 tileH" : 5,
       "repeated Collisions weightMap" : 6
     },
     "required Map map" : 3

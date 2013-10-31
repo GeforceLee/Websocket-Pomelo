@@ -7,7 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
-
+#include "ProtobufEncoder.h"
+#include "ProtobufDecoder.h"
+#include "ProtobufParse.h"
 @interface ProtobufTest : XCTestCase
 
 @end
@@ -26,9 +28,33 @@
     [super tearDown];
 }
 
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+- (void)testEncoder{
+    NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+    NSString *path =  [thisBundle pathForResource:@"example" ofType:@"json"];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+    NSDictionary *protosTemp =  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSDictionary *protos = [ProtobufParse parse:protosTemp];
+//    NSData *tdata = [NSJSONSerialization dataWithJSONObject:protos options:NSJSONWritingPrettyPrinted error:nil];
+//    NSString *str = [[NSString alloc] initWithData:tdata encoding:NSUTF8StringEncoding];
+//    NSLog(@"%@",str);
+    ProtobufEncoder *encoder = [ProtobufEncoder protobufEncoderWithProtos:protos];
+    ProtobufDecoder *decoder = [ProtobufDecoder protobufDecodeWhitProtos:protos];
+    NSString *msgPath = [thisBundle pathForResource:@"testMsg" ofType:@"json"];
+    NSData *msgData = [[NSData alloc] initWithContentsOfFile:msgPath];
+    NSDictionary *msgDict =  [NSJSONSerialization JSONObjectWithData:msgData options:0 error:nil];
+    for (NSString *route in [msgDict allKeys]) {
+        NSDictionary *msg = [msgDict objectForKey:route];
+        NSData *buffer = [encoder encodeWithRoute:route andMessage:msg];
+        NSDictionary *decodeMsg = [decoder decodeWithRoute:route andData:buffer];
+        
+        XCTAssertEqualObjects(msg, decodeMsg, @"encode decode must euqual");
+        
+    }
+    
+    
+    
+    
+//    [NSFileManager defaultManager]
 }
 
 @end

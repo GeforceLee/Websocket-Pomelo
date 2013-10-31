@@ -161,7 +161,6 @@
     [msg enumerateKeysAndObjectsUsingBlock:^(NSString *name, id obj, BOOL *stop) {
         NSDictionary *tProto = proto[name];
 
-            
             NSString *option = tProto[@"option"];
             if ( [option isEqualToString:@"required"] || [option isEqualToString:@"optional"]) {
                 
@@ -207,19 +206,20 @@
         NSNumber *num = value;
         float fl = [num floatValue];
         [buffer appendBytes:&fl length:4];
-        
+        offset +=4;
     }else if ([type isEqualToString:@"double"]){
         
         NSNumber *num = value;
         double dou = [num doubleValue];
         [buffer appendBytes:&dou length:8];
+        offset+=8;
         
     }else if ([type isEqualToString:@"string"]){
         NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
         length = data.length;
         
         offset = [self writeBytesWithData:buffer andOffset:offset andData:[ProtobufCodec encodeUInt32:length]];
-        
+
         [buffer appendData:data];
         
         offset += length;

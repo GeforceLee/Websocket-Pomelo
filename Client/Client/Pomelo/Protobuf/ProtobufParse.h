@@ -10,4 +10,12 @@
 
 @interface ProtobufParse : NSObject
 
+/**
+ *  解析Protobuf定义文件解析
+ *
+ *  @param protos protobuf 定义Json
+ *
+ *  @return 解析后的对照表
+ */
++ (NSDictionary *)parse:(NSDictionary *)protos;
 @end
