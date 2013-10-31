@@ -34,9 +34,6 @@
     NSData *data = [[NSData alloc] initWithContentsOfFile:path];
     NSDictionary *protosTemp =  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     NSDictionary *protos = [ProtobufParse parse:protosTemp];
-//    NSData *tdata = [NSJSONSerialization dataWithJSONObject:protos options:NSJSONWritingPrettyPrinted error:nil];
-//    NSString *str = [[NSString alloc] initWithData:tdata encoding:NSUTF8StringEncoding];
-//    NSLog(@"%@",str);
     ProtobufEncoder *encoder = [ProtobufEncoder protobufEncoderWithProtos:protos];
     ProtobufDecoder *decoder = [ProtobufDecoder protobufDecodeWhitProtos:protos];
     NSString *msgPath = [thisBundle pathForResource:@"testMsg" ofType:@"json"];
@@ -50,11 +47,6 @@
         XCTAssertEqualObjects(msg, decodeMsg, @"encode decode must euqual");
         
     }
-    
-    
-    
-    
-//    [NSFileManager defaultManager]
 }
 
 @end

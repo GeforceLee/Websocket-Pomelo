@@ -147,7 +147,9 @@ PomeloMessage * MakePomeloMessage(NSUInteger msgId,MessageType type, BOOL compre
 
 NS_INLINE
 PomeloPackage * MakePomeloPackage(PackageType type,NSData *body){
-    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    return body.length>0?[NSMutableDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithInt:type],@"type",
-            body,@"body", nil];
+                          body,@"body", nil]:
+    [NSMutableDictionary dictionaryWithObjectsAndKeys:
+     [NSNumber numberWithInt:type],@"type", nil];
 }

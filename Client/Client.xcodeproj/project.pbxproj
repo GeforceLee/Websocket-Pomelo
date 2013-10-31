@@ -38,6 +38,7 @@
 		376AA7C91820FEC500C05AA8 /* ProtobufTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 376AA7C81820FEC500C05AA8 /* ProtobufTest.m */; };
 		376AA7CB182106F900C05AA8 /* testMsg.json in Resources */ = {isa = PBXBuildFile; fileRef = 376AA7CA182106F900C05AA8 /* testMsg.json */; };
 		376AA7CE1821EC5500C05AA8 /* ProtobufParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 376AA7CD1821EC5500C05AA8 /* ProtobufParse.m */; };
+		376AA7D918225B7A00C05AA8 /* PomeloProtocolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 376AA7D818225B7A00C05AA8 /* PomeloProtocolTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		376AA7CA182106F900C05AA8 /* testMsg.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testMsg.json; sourceTree = "<group>"; };
 		376AA7CC1821EC5500C05AA8 /* ProtobufParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufParse.h; sourceTree = "<group>"; };
 		376AA7CD1821EC5500C05AA8 /* ProtobufParse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufParse.m; sourceTree = "<group>"; };
+		376AA7D818225B7A00C05AA8 /* PomeloProtocolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PomeloProtocolTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +247,7 @@
 		3764EB5117F0268600093CF7 /* ClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				376AA7D718225B5000C05AA8 /* PomeloProtocolTest */,
 				37CB37B81820EE900033096C /* ProtobufTest */,
 				3764EB5217F0268600093CF7 /* Supporting Files */,
 			);
@@ -267,6 +270,14 @@
 				376AA7CA182106F900C05AA8 /* testMsg.json */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		376AA7D718225B5000C05AA8 /* PomeloProtocolTest */ = {
+			isa = PBXGroup;
+			children = (
+				376AA7D818225B7A00C05AA8 /* PomeloProtocolTest.m */,
+			);
+			name = PomeloProtocolTest;
 			sourceTree = "<group>";
 		};
 		37CB37B81820EE900033096C /* ProtobufTest */ = {
@@ -401,6 +412,7 @@
 			files = (
 				376AA7C91820FEC500C05AA8 /* ProtobufTest.m in Sources */,
 				374476AC1820F4A80052AC7A /* ProtobufCoderTest.m in Sources */,
+				376AA7D918225B7A00C05AA8 /* PomeloProtocolTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
