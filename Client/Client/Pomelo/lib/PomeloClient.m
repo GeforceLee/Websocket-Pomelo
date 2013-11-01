@@ -204,7 +204,12 @@
     
     _webSocket = [[SRWebSocket alloc] initWithURL:url];
     _webSocket.delegate = self;
-    _connectionParam = params;
+    if (params) {
+        _connectionParam = params;
+    }else{
+        _connectionParam = [NSDictionary dictionary];
+    }
+    
     
     if (callback) {
         [_callBacks setObject:callback forKey:kPomeloHandshakeCallback];
