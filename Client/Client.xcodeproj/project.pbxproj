@@ -16,6 +16,7 @@
 		3743B536180E2CB700C17E30 /* ProtobufDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3743B530180E2CB700C17E30 /* ProtobufDecoder.m */; };
 		3743B537180E2CB700C17E30 /* ProtobufEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3743B532180E2CB700C17E30 /* ProtobufEncoder.m */; };
 		3743B538180E2CB700C17E30 /* ProtobufUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3743B534180E2CB700C17E30 /* ProtobufUtil.m */; };
+		374476AC1820F4A80052AC7A /* ProtobufCoderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 374476AB1820F4A80052AC7A /* ProtobufCoderTest.m */; };
 		3764EB2A17F0268600093CF7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB2917F0268600093CF7 /* Foundation.framework */; };
 		3764EB2C17F0268600093CF7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB2B17F0268600093CF7 /* CoreGraphics.framework */; };
 		3764EB2E17F0268600093CF7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB2D17F0268600093CF7 /* UIKit.framework */; };
@@ -30,10 +31,14 @@
 		3764EB4D17F0268600093CF7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB2917F0268600093CF7 /* Foundation.framework */; };
 		3764EB4E17F0268600093CF7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB2D17F0268600093CF7 /* UIKit.framework */; };
 		3764EB5617F0268600093CF7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3764EB5417F0268600093CF7 /* InfoPlist.strings */; };
-		3764EB5817F0268600093CF7 /* ClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3764EB5717F0268600093CF7 /* ClientTests.m */; };
 		3764EB6D17F0280E00093CF7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB6C17F0280D00093CF7 /* CFNetwork.framework */; };
 		3764EB6F17F028BD00093CF7 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB6E17F028BD00093CF7 /* libicucore.dylib */; };
 		3764EB7117F028CD00093CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3764EB7017F028CD00093CF7 /* Security.framework */; };
+		376AA7C71820FE8D00C05AA8 /* example.json in Resources */ = {isa = PBXBuildFile; fileRef = 376AA7C61820FE8D00C05AA8 /* example.json */; };
+		376AA7C91820FEC500C05AA8 /* ProtobufTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 376AA7C81820FEC500C05AA8 /* ProtobufTest.m */; };
+		376AA7CB182106F900C05AA8 /* testMsg.json in Resources */ = {isa = PBXBuildFile; fileRef = 376AA7CA182106F900C05AA8 /* testMsg.json */; };
+		376AA7CE1821EC5500C05AA8 /* ProtobufParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 376AA7CD1821EC5500C05AA8 /* ProtobufParse.m */; };
+		376AA7D918225B7A00C05AA8 /* PomeloProtocolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 376AA7D818225B7A00C05AA8 /* PomeloProtocolTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +72,7 @@
 		3743B532180E2CB700C17E30 /* ProtobufEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufEncoder.m; sourceTree = "<group>"; };
 		3743B533180E2CB700C17E30 /* ProtobufUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufUtil.h; sourceTree = "<group>"; };
 		3743B534180E2CB700C17E30 /* ProtobufUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufUtil.m; sourceTree = "<group>"; };
+		374476AB1820F4A80052AC7A /* ProtobufCoderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufCoderTest.m; sourceTree = "<group>"; };
 		3764EB2617F0268600093CF7 /* Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3764EB2917F0268600093CF7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3764EB2B17F0268600093CF7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -86,10 +92,15 @@
 		3764EB4B17F0268600093CF7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3764EB5317F0268600093CF7 /* ClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClientTests-Info.plist"; sourceTree = "<group>"; };
 		3764EB5517F0268600093CF7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3764EB5717F0268600093CF7 /* ClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClientTests.m; sourceTree = "<group>"; };
 		3764EB6C17F0280D00093CF7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3764EB6E17F028BD00093CF7 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		3764EB7017F028CD00093CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		376AA7C61820FE8D00C05AA8 /* example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = example.json; sourceTree = "<group>"; };
+		376AA7C81820FEC500C05AA8 /* ProtobufTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufTest.m; sourceTree = "<group>"; };
+		376AA7CA182106F900C05AA8 /* testMsg.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testMsg.json; sourceTree = "<group>"; };
+		376AA7CC1821EC5500C05AA8 /* ProtobufParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtobufParse.h; sourceTree = "<group>"; };
+		376AA7CD1821EC5500C05AA8 /* ProtobufParse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtobufParse.m; sourceTree = "<group>"; };
+		376AA7D818225B7A00C05AA8 /* PomeloProtocolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PomeloProtocolTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +178,8 @@
 				3743B532180E2CB700C17E30 /* ProtobufEncoder.m */,
 				3743B533180E2CB700C17E30 /* ProtobufUtil.h */,
 				3743B534180E2CB700C17E30 /* ProtobufUtil.m */,
+				376AA7CC1821EC5500C05AA8 /* ProtobufParse.h */,
+				376AA7CD1821EC5500C05AA8 /* ProtobufParse.m */,
 			);
 			path = Protobuf;
 			sourceTree = "<group>";
@@ -234,7 +247,8 @@
 		3764EB5117F0268600093CF7 /* ClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				3764EB5717F0268600093CF7 /* ClientTests.m */,
+				376AA7D718225B5000C05AA8 /* PomeloProtocolTest */,
+				37CB37B81820EE900033096C /* ProtobufTest */,
 				3764EB5217F0268600093CF7 /* Supporting Files */,
 			);
 			path = ClientTests;
@@ -247,6 +261,33 @@
 				3764EB5417F0268600093CF7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		376AA7C51820FE6C00C05AA8 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				376AA7C61820FE8D00C05AA8 /* example.json */,
+				376AA7CA182106F900C05AA8 /* testMsg.json */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		376AA7D718225B5000C05AA8 /* PomeloProtocolTest */ = {
+			isa = PBXGroup;
+			children = (
+				376AA7D818225B7A00C05AA8 /* PomeloProtocolTest.m */,
+			);
+			name = PomeloProtocolTest;
+			sourceTree = "<group>";
+		};
+		37CB37B81820EE900033096C /* ProtobufTest */ = {
+			isa = PBXGroup;
+			children = (
+				376AA7C51820FE6C00C05AA8 /* Data */,
+				374476AB1820F4A80052AC7A /* ProtobufCoderTest.m */,
+				376AA7C81820FEC500C05AA8 /* ProtobufTest.m */,
+			);
+			name = ProtobufTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,7 +377,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				376AA7C71820FE8D00C05AA8 /* example.json in Resources */,
 				3764EB5617F0268600093CF7 /* InfoPlist.strings in Resources */,
+				376AA7CB182106F900C05AA8 /* testMsg.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +396,7 @@
 				3743B529180E2C9500C17E30 /* PomeloClient.m in Sources */,
 				3764EB4317F0268600093CF7 /* ViewController.m in Sources */,
 				3743B537180E2CB700C17E30 /* ProtobufEncoder.m in Sources */,
+				376AA7CE1821EC5500C05AA8 /* ProtobufParse.m in Sources */,
 				3764EB3A17F0268600093CF7 /* AppDelegate.m in Sources */,
 				3743B526180E2C9500C17E30 /* base64.c in Sources */,
 				3743B538180E2CB700C17E30 /* ProtobufUtil.m in Sources */,
@@ -366,7 +410,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3764EB5817F0268600093CF7 /* ClientTests.m in Sources */,
+				376AA7C91820FEC500C05AA8 /* ProtobufTest.m in Sources */,
+				374476AC1820F4A80052AC7A /* ProtobufCoderTest.m in Sources */,
+				376AA7D918225B7A00C05AA8 /* PomeloProtocolTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
