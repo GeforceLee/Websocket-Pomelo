@@ -355,7 +355,7 @@
         [self send:handshakeAck];
         PomeloCallback handCb = [_callBacks objectForKey:kPomeloHandshakeCallback];
         if (handCb) {
-            handCb(self);
+            handCb([data objectForKey:@"user"]);
         }
     }
 }
