@@ -272,7 +272,7 @@
     if (callback) {
         [_callBacks setObject:callback forKey:route];
     }
-
+    
 }
 
 - (void)offRoute:(NSString *)route{
@@ -358,6 +358,7 @@
         PomeloCallback handCb = [_callBacks objectForKey:kPomeloHandshakeCallback];
         if (handCb) {
             handCb([data objectForKey:@"user"]);
+            [_callBacks removeObjectForKey:kPomeloHandshakeCallback];
         }
     }
 }
@@ -376,19 +377,19 @@
 
 
 - (void)protobufDataInit:(NSDictionary *)data{
-//        dict =         {
-//            
-//        };
-//        heartbeat = 15;
-//        protos =         {
-//            client =             {
-//            };
-//            server =             {
-//                
-//                };
-//            };
-//            version = 1381463782000;
-//        };
+    //        dict =         {
+    //
+    //        };
+    //        heartbeat = 15;
+    //        protos =         {
+    //            client =             {
+    //            };
+    //            server =             {
+    //
+    //                };
+    //            };
+    //            version = 1381463782000;
+    //        };
     if (data) {
         _dict = [data objectForKey:@"dict"];
         
@@ -424,7 +425,7 @@
     
     _heartbeatId = YES;
     [self performSelector:@selector(sendHeartbeat) withObject:nil afterDelay:_heartbeatInterval];
-
+    
     
 }
 
@@ -477,7 +478,7 @@
                 pushCb([data objectForKey:@"body"]);
             }
         }
-
+        
         return;
     }
     
@@ -489,13 +490,12 @@
 
 
 - (void)handleErrorcode:(ResCode)code{
-
-    if (self.delegate && [self respondsToSelector:@selector(pomeloDisconnect:withError:)]) {
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pomeloDisconnect:withError:)]) {
         [self.delegate pomeloDisconnect:self withError:[NSError errorWithDomain:@"pomeloclient" code:code userInfo:nil]];
     }
-    
     [self disconnect];
-
+    
 }
 
 
@@ -503,7 +503,7 @@
 - (NSDictionary *)decodeWithData:(NSData *)data{
     
     if ([self.delegate respondsToSelector:@selector(pomeloClientDecodeWithData:)]) {
-         data =  [self.delegate pomeloClientDecodeWithData:data];
+        data =  [self.delegate pomeloClientDecodeWithData:data];
     }
     
     NSDictionary *msg = [PomeloProtocol messageDecode:data];
@@ -570,7 +570,7 @@
 - (void)sendMessageWithRequestId:(NSInteger)reqId
                         andRoute:(NSString *)route
                           andMsg:(NSDictionary *)msg{
-
+    
     //TODO 加密 protobuf
     
     NSData *data = [self encodeWithReqId:reqId andRoute:route andMsg:msg];
