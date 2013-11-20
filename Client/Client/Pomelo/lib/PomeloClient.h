@@ -80,7 +80,7 @@ typedef enum{
      *  心跳超时时间间隔
      */
     NSTimeInterval _heartbeatTimeout;
-
+    
     /**
      *  心跳超时标识
      */

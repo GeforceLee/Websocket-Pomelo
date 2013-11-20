@@ -219,7 +219,9 @@
 
 - (void)disconnect{
     
-    [self disconnectWithCallback:nil];
+    [self disconnectWithCallback:^(id arg){
+        
+    }];
     
 }
 
@@ -427,13 +429,15 @@
 }
 
 - (void)sendHeartbeat{
-    NSData *heart = [PomeloProtocol packageEncodeWithType:PackageTypeHeartBeat andBody:nil];
-    [self send:heart];
+    if (_webSocket.readyState == SR_OPEN) {
+        NSData *heart = [PomeloProtocol packageEncodeWithType:PackageTypeHeartBeat andBody:nil];
+        [self send:heart];
+        
+        _nextHeartbeatTimeout = [self timeNow] + _heartbeatTimeout;
+        _heartbeatTimeoutId = YES;
+        [self performSelector:@selector(handleHeartbeatTimeout) withObject:nil afterDelay:_heartbeatTimeout];
+    }
     _heartbeatId = NO;
-    _nextHeartbeatTimeout = [self timeNow] + _heartbeatTimeout;
-    
-    _heartbeatTimeoutId = YES;
-    [self performSelector:@selector(handleHeartbeatTimeout) withObject:nil afterDelay:_heartbeatTimeout];
 }
 
 
@@ -529,7 +533,6 @@
         data = [_protobufEncode encodeWithRoute:route andMessage:msg];
     }else{
         NSString *str =[PomeloClient encodeJSON:msg error:nil];
-        DEBUGLOG(@"%@",str);
         data = [PomeloProtocol strEncode:str];
     }
     
@@ -618,12 +621,20 @@
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error{
     DEBUGLOG(@"error:%@",error);
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(handleHeartbeatTimeout) object:nil];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pomeloDisconnect:withError:)] ) {
+        [self.delegate pomeloDisconnect:self withError:error];
+    }
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean{
     DEBUGLOG(@"close code :%d   reason:%@  wasClean:%d",code,reason,wasClean);
     PomeloCallback callback = [_callBacks objectForKey:kPomeloCloseCallback];
+    [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(handleHeartbeatTimeout) object:nil];
+    
     if(callback) {
         callback(self);
+    }else{
+        [self webSocket:webSocket didFailWithError:nil];
     }
 }
 @end
