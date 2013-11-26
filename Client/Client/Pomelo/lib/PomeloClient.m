@@ -485,6 +485,7 @@
     PomeloCallback cb = [_callBacks objectForKey:MESSAGE_CALLBACK_KEY(msgId)];
     if (cb) {
         cb([data objectForKey:@"body"]);
+        [_callBacks removeObjectForKey:MESSAGE_CALLBACK_KEY(msgId)];
     }
 }
 
