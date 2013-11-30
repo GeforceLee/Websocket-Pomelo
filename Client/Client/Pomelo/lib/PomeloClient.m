@@ -199,6 +199,7 @@
                onPort:(NSString *)port
                params:(NSDictionary *)params
          withCallback:(PomeloCallback)callback{
+    [_callBacks removeAllObjects];
     NSString *urlStr = [NSString stringWithFormat:@"ws://%@:%@",host,port];
     NSURL *url = [NSURL URLWithString:urlStr];
     
