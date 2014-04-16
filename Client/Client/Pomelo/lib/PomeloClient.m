@@ -11,7 +11,7 @@
 #import "ProtobufDecoder.h"
 #import "ProtobufEncoder.h"
 #define POMELO_CLIENT_TYPE @"ios-websocket"
-#define POMELO_CLIENT_VERSION @"0.0.1"
+#define POMELO_CLIENT_VERSION @"0.2"
 
 #define kPomeloHandshakeCallback @"kPomeloHandshakeCallback"
 #define kPomeloCloseCallback @"kPomeloCloseCallback"
