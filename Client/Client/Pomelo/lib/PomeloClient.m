@@ -160,6 +160,15 @@
  *  @return 解密原始数据的消息体
  */
 - (NSDictionary *)deCompose:(NSDictionary *)msg;
+
+
+/**
+ *  记录log
+ *
+ *  @param key   key
+ *  @param param 参数 可为空
+ */
+- (void)addLogWithKey:(NSString *)key andParam:(id)param;
 @end
 
 @implementation PomeloClient
@@ -172,7 +181,7 @@
         _reqId = 0;
         _routeMap =[[NSMutableDictionary alloc] init];
         _delegate = delegate;
-        
+        _logs = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -211,6 +220,8 @@
         _connectionParam = [NSDictionary dictionary];
     }
     
+    [self addLogWithKey:[NSString stringWithFormat:@"连接  host:%@  port:%@",host,port] andParam:params];
+
     
     if (callback) {
         [_callBacks setObject:callback forKey:kPomeloHandshakeCallback];
@@ -227,6 +238,9 @@
 }
 
 - (void)disconnectWithCallback:(PomeloCallback)callback{
+    
+    [self addLogWithKey:@"断开连接" andParam:nil];
+
     if (callback) {
         [_callBacks setObject:callback forKey:kPomeloCloseCallback];
     }
@@ -248,8 +262,11 @@
     if (!params) {
         sendParams = [NSDictionary dictionary];
     }
+    
     _reqId++;
     
+    [self addLogWithKey:[NSString stringWithFormat:@"request: %@ reqId:%d",route,_reqId] andParam:params];
+
     if (callback) {
         [_callBacks setObject:callback forKey:MESSAGE_CALLBACK_KEY(_reqId)];
     }
@@ -264,12 +281,13 @@
     if (!params) {
         sendParams = [NSDictionary dictionary];
     }
-    
+    [self addLogWithKey:[NSString stringWithFormat:@"notify: %@",route] andParam:params];
     [self sendMessageWithRequestId:0 andRoute:route andMsg:sendParams];
 }
 
 
 - (void)onRoute:(NSString *)route withCallback:(PomeloCallback)callback{
+    [self addLogWithKey:[NSString stringWithFormat:@"onRoute: %@",route] andParam:nil];
     if (callback) {
         [_callBacks setObject:callback forKey:route];
     }
@@ -277,12 +295,14 @@
 }
 
 - (void)offRoute:(NSString *)route{
+    [self addLogWithKey:[NSString stringWithFormat:@"offRoute: %@",route] andParam:nil];
     if (route) {
         [_callBacks removeObjectForKey:route];
     }
 }
 
 - (void)offAllRoute{
+    [self addLogWithKey:@"offAllRoute" andParam:nil];
     [_callBacks removeAllObjects];
 }
 #pragma mark - JSON helper
@@ -340,6 +360,9 @@
 - (void)handleHandshake:(NSData *)theData{
     NSDictionary *data = [PomeloClient decodeJSON:theData error:nil];
     NSInteger code = [[data objectForKey:@"code"] integerValue];
+    
+    [self addLogWithKey:@"握手response" andParam:data];
+    
     if (code == ResCodeOldClient) {
         
         [self handleErrorcode:code];
@@ -473,6 +496,7 @@
     if (!msgId) {
         // server push message
         NSString *msgRoute = [data objectForKey:@"route"];
+        [self addLogWithKey:[NSString stringWithFormat:@"push receive :%@",msgRoute] andParam:[data objectForKey:@"body"]];
         if (msgRoute) {
             PomeloCallback pushCb = [_callBacks objectForKey:msgRoute];
             if (pushCb) {
@@ -483,6 +507,11 @@
         return;
     }
     
+    NSString *route = [_routeMap objectForKey:ROUTE_MAP_KEY(msgId)];
+    [_routeMap removeObjectForKey:ROUTE_MAP_KEY(msgId)];
+    
+    [self addLogWithKey:[NSString stringWithFormat:@"response msgId:%d  %@:",msgId,route] andParam:[data objectForKey:@"body"]];
+    
     PomeloCallback cb = [_callBacks objectForKey:MESSAGE_CALLBACK_KEY(msgId)];
     if (cb) {
         cb([data objectForKey:@"body"]);
@@ -492,7 +521,7 @@
 
 
 - (void)handleErrorcode:(ResCode)code{
-    
+    [self addLogWithKey:[NSString stringWithFormat:@"error code:%d",code] andParam:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(pomeloDisconnect:withError:)]) {
         [self.delegate pomeloDisconnect:self withError:[NSError errorWithDomain:@"pomeloclient" code:code userInfo:nil]];
     }
@@ -517,7 +546,7 @@
             return nil;
         }
         [result setValue:route forKey:@"route"];
-        [_routeMap removeObjectForKey:ROUTE_MAP_KEY(msgid)];
+        
     }
     [result setValue:[self deCompose:result] forKey:@"body"];
     return result;
@@ -591,6 +620,30 @@
 - (NSTimeInterval)timeNow{
     return [[NSDate date] timeIntervalSince1970];
 }
+
+
+
+- (void)addLogWithKey:(NSString *)key andParam:(id)param{
+    if (key) {
+        NSString *keyString = [NSString stringWithFormat:@"%@   %@",[NSDate date],key];
+        if (param) {
+            NSDictionary *dict = @{keyString: param};
+#if DEBUG == 1
+            NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *jsonStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"%@",jsonStr);
+#endif
+            [_logs addObject:dict];
+        }else{
+#if DEBUG == 1
+            NSLog(@"%@",keyString);
+#endif
+            [_logs addObject:keyString];
+        }
+    }
+    
+}
+
 #pragma mark --
 #pragma mark SRWebSocketDelegate
 
@@ -623,6 +676,7 @@
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error{
     DEBUGLOG(@"error:%@",error);
+    [self addLogWithKey:[NSString stringWithFormat:@"webSocket error code:%d",error.code] andParam:nil];
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(handleHeartbeatTimeout) object:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(pomeloDisconnect:withError:)] ) {
         [self.delegate pomeloDisconnect:self withError:error];

@@ -133,6 +133,9 @@ typedef enum{
     ProtobufDecoder *_probufDecode;
     
     ProtobufEncoder *_protobufEncode;
+    
+    
+    NSMutableArray *_logs;
 }
 @property (nonatomic,assign) id delegate;
 
