@@ -126,7 +126,7 @@ typedef enum{
     
     NSDictionary *_dict;    // route string to code
     
-    NSInteger _protoVersion;
+    NSNumber *_protoVersion;
     
     NSDictionary *_abbrs;   // code to route string
     

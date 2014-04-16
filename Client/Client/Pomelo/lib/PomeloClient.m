@@ -26,6 +26,8 @@
 #define MESSAGE_CALLBACK_KEY(msgid) [NSString stringWithFormat:@"MESSAGE_CALLBACK_KEY_%d",msgid]
 #define ROUTE_MAP_KEY(msgid) [NSString stringWithFormat:@"ROUTE_MAP_KEY_%d",msgid]
 
+
+#define PROTOBUFFILENAME @"protubuf"
 @interface PomeloClient (PrivateMethod)
 /**
  *  发送消息
@@ -169,6 +171,20 @@
  *  @param param 参数 可为空
  */
 - (void)addLogWithKey:(NSString *)key andParam:(id)param;
+
+
+
+/**
+ *  读取本地Protobuf
+ *
+ */
+- (void)loadLocalProtobuf;
+
+/**
+ *  更新Protobuf
+ */
+- (void)updataLocalProtibuf:(NSDictionary *)dict;
+
 @end
 
 @implementation PomeloClient
@@ -182,6 +198,7 @@
         _routeMap =[[NSMutableDictionary alloc] init];
         _delegate = delegate;
         _logs = [[NSMutableArray alloc] init];
+        [self loadLocalProtobuf];
     }
     return self;
 }
@@ -421,16 +438,25 @@
         [_dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSNumber *obj, BOOL *stop) {
             [_abbrs setValue:key forKey:[NSString stringWithFormat:@"%@",obj]];
         }];
-        _clientProtos = [[data objectForKey:@"protos"] objectForKey:@"client"];
-        _serverProtos = [[data objectForKey:@"protos"] objectForKey:@"server"];
-        _protoVersion = [[[data objectForKey:@"protos"] objectForKey:@"version"] integerValue];
-        
-        _protobufEncode  = [ProtobufEncoder protobufEncoderWithProtos:_clientProtos];
-        _probufDecode = [ProtobufDecoder protobufDecodeWhitProtos:_serverProtos];
+        NSDictionary *protdict = [data objectForKey:@"protos"];
+        if(protdict){
+            [self updataProtobuf:protdict UseUpdate:YES];
+        }
     }
 }
 
-
+- (void)updataProtobuf:(NSDictionary *)dict UseUpdate:(BOOL)use{
+    _clientProtos = [dict objectForKey:@"client"];
+    _serverProtos = [dict objectForKey:@"server"];
+    _protoVersion = [dict objectForKey:@"version"];
+    
+    _protobufEncode  = [ProtobufEncoder protobufEncoderWithProtos:_clientProtos];
+    _probufDecode = [ProtobufDecoder protobufDecodeWhitProtos:_serverProtos];
+    if (use) {
+        [self updataLocalProtibuf:dict];
+    }
+    
+}
 - (void)heartbeat:(NSDictionary *)data{
     if (!_heartbeatInterval) {
         //没设置心跳
@@ -640,6 +666,32 @@
 #endif
             [_logs addObject:keyString];
         }
+    }
+    
+}
+
+
+
+-(void)loadLocalProtobuf{
+    NSString *filePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:PROTOBUFFILENAME];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSData *data = [NSData dataWithContentsOfFile:filePath];
+            NSError *error;
+            NSDictionary *dict =  [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            if (!error) {
+                [self updataProtobuf:dict UseUpdate:YES];
+            }
+        
+    }
+}
+- (void)updataLocalProtibuf:(NSDictionary *)dict{
+    
+    NSError *error;
+    
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+    if (!error) {
+            NSString *filePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:PROTOBUFFILENAME];
+            [data writeToFile:filePath atomically:YES];
     }
     
 }
