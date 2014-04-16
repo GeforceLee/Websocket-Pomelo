@@ -142,6 +142,14 @@ Websocket-Pomelo
  	*  @param error  错误信息
  	*/
 	- (void)pomeloDisconnect:(PomeloClient *)pomelo withError:(NSError *)error;
+	
+	
+###NEW
+####V0.2
+
+1. 记录Pomelo所有通信数据
+2. Protobuf动态更新,节省流量
+3. 修复一些Bug
 
 
 
